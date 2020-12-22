@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title> 3-3 </title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><!--한글 깨짐방지-->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<script src="blocklyR/blolib/blockly_compressed.js"></script>
+<script src="blocklyR/blolib/blocks_compressed.js"></script> <!-- -->
+<script src="blocklyR/msg/js/ko.js"></script>
+<script src="blocklyR/blolib/javascript_compressed.js"></script>
+<script src="blocklyR/blolib/python_compressed.js"></script>
+<script src="blocklyR/blolib/js-py-test.js"></script>
+ <script src="blocklyR/blolib/acorn.js"></script>
+ <script src="blocklyR/blolib/interpreter.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="codemirror.js"></script>
+<link rel="stylesheet" href="codemirror.css"/>
+<link rel="stylesheet"  href="block.css"/>
+    <script src="javascript.js"></script>
+    <script src="runtime.js"></script>
+
+</head>
+<body>
+  <br>
+  <div id = "cont">
+  <p id = "whichi">이미 해결된 문제입니다!</p>
+  <br><br>
+  <p id = "fontid">3-3. 두개의 변수에 5, 10을 지정 후 덧셈, 뺄셈, 곱셈, 나눗셈의 연산 결과를 변수에 저장한 다음 연산한 결과를 출력하시오.</p>
+
+<div id="blocklyDiv"></div>
+<xml id="toolbox" style="display: none">
+  <category name="변수" colour="330" custom="VARIABLE"></category>
+  <category name = "연산" clour="250">
+    <block type="text_print"></block>
+    <block type="text"></block>
+    <block type="math_arithmetic"></block>
+    <block type="variables_get"></block>
+    <block type="variables_set"></block>
+    <block type="math_number"></block>
+    <block type="apple_image"></block>
+    <block type="banana_image"></block>
+  </category>
+</xml>
+
+<script>
+  var BlockResult = "15-5500.5";
+
+  var selectedText="";
+  var workspace = Blockly.inject('blocklyDiv',
+    {toolbox: document.getElementById('toolbox'),
+     zoom:
+         {controls: true,
+          wheel: true,
+          startScale: 1.0,
+          maxScale: 3,
+          minScale: 0.3,
+          scaleSpeed: 1.2},
+     trashcan: true});
+$(document).ready(function () {
+            $('#lstFavorites').change(function () {
+                selectedText = $("option:selected").text();
+                myUpdateFunction();
+            });
+
+        });
+
+function myUpdateFunction(event) {
+  var code, code2;
+
+  if(selectedText == "JavaScript"){
+    code = Blockly.JavaScript.workspaceToCode(workspace);
+    code2 = Blockly.JavaScript.workspaceToCode(workspace);
+  }
+  else if(selectedText == "Python"){
+    code = Blockly.Python.workspaceToCode(workspace);
+    code2 = Blockly.JavaScript.workspaceToCode(workspace);
+  }
+  else {code = "언어를 선택해주세요!";}
+
+  document.getElementById('textarea').value = code;
+  document.getElementById('textarea2').value = code2;
+
+}
+
+workspace.addChangeListener(myUpdateFunction);
+
+      function runButton() {
+        parseButton();
+      
+      myInterpreter.run();
+      if(BlockResult === document.getElementById('result2').value){
+        alert("정답입니다!");
+      }
+      else{
+        alert("틀렸습니다!");
+      }
+    }
+
+</script>
+
+<div id = "printr">
+<p><font size="4"> 출 력 </font></p>
+</div>
+<textarea id = "result2" readonly ></textarea>
+
+ <textarea rows = "30" cols = "30" id = "textarea2" ></textarea>
+
+<div class="my-box" rows="33" cols="30">
+<p id = "Language" > Language :  </p>
+ <select id="lstFavorites">
+    <option>선택하세요</option>
+    <option>JavaScript</option>
+    <option>Python</option>
+</select>
+<textarea id = "textarea" readonly>
+</textarea>
+</div>
+<button onclick="runButton()" id="runButton"><img src="image/재생.png" width="30" height="30" ></button> 
+</div>
+</body>
+</html>

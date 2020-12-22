@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title> te2st </title>
+     
+  <style>
+    #textarea{ position: absolute; top: 8.39px; left: 608px; border: 3px solid gray; }
+    #textarea2{ position: absolute; top: 70px; left: 1200px; }
+
+.my-box { position: absolute; top: 8.39px; left: 608px; border: 3px solid gray; }
+   
+
+  </style>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><!--한글 깨짐방지-->
+<script src="blocklyR/blolib/blockly_compressed.js"></script>
+<script src="blocklyR/blolib/blocks_compressed.js"></script> <!-- -->
+<script src="blocklyR/msg/js/ko.js"></script>
+<script src="blocklyR/blolib/javascript_compressed.js"></script>
+<script src="blocklyR/blolib/python_compressed.js"></script>
+<script src="blocklyR/blolib/js-py-test.js"></script>
+ <script src="blocklyR/blolib/acorn.js"></script>
+ <script src="blocklyR/blolib/interpreter.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+<script>
+ 
+  var myInterpreter;
+  var BlockResult = "사과사과사과";
+  function initAlert(interpreter, scope) {
+      var wrapper = function(text) {
+        document.getElementById('result2').value += text;
+      };
+      interpreter.setProperty(scope, 'alert',
+          interpreter.createNativeFunction(wrapper));
+    }
+
+    function parseButton() {
+      document.getElementById('result2').value = "";
+      var code = document.getElementById('textarea2').value;
+      myInterpreter = new Interpreter(code, initAlert);
+      disable('');
+    }
+
+      function runButton() {
+      disable('disabled');
+      myInterpreter.run();
+      if(BlockResult === document.getElementById('result2').value){
+        alert("정답입니다!");
+      }
+      else{
+        alert("틀렸습니다!");
+      }
+    }
+
+    function disable(disabled) {
+      document.getElementById('runButton').disabled = disabled;
+    }
+
+    function inoButton(){
+      let {PythonShell} = require('python-shell');
+      PythonShell.run('test.py', null, function () { });
+    }
+</script>
+
+</head>
+<body>
+<div id="blocklyDiv" style="height: 479.5px; width: 600px; border: 3px solid gray;"></div>
+<xml id="toolbox" style="display: none">
+  <block type="text_print"></block>
+  <block type="text"></block>
+  <block type="math_arithmetic"></block>
+  <block type="variables_get"></block>
+  <block type="variables_set"></block>
+  <block type="math_number"></block>
+    <block type="controls_repeat_ext"></block>
+
+</xml>
+<script>
+  var selectedText="";
+  var workspace = Blockly.inject('blocklyDiv',
+    {toolbox: document.getElementById('toolbox'),
+     zoom:
+         {controls: true,
+          wheel: true,
+          startScale: 1.0,
+          maxScale: 3,
+          minScale: 0.3,
+          scaleSpeed: 1.2},
+     trashcan: true});
+
+
+
+
+$(document).ready(function () {
+            $('#lstFavorites').change(function () {
+                selectedText = $("option:selected").text();
+                myUpdateFunction();
+            });
+
+        });
+function myUpdateFunction(event) {
+  var code, code2;
+
+  if(selectedText == "JavaScript"){
+    code = Blockly.JavaScript.workspaceToCode(workspace);
+    code2 = Blockly.JavaScript.workspaceToCode(workspace);
+  }
+  else if(selectedText == "Python"){
+    code = Blockly.Python.workspaceToCode(workspace);
+    code2 = Blockly.JavaScript.workspaceToCode(workspace);
+  }
+  document.getElementById('textarea').value = code;
+  document.getElementById('textarea2').value = code2;
+}
+
+workspace.addChangeListener(myUpdateFunction);
+
+</script>
+
+
+<textarea rows="33" cols="30" id = "textarea" readonly>
+</textarea>
+<br>
+<a>출력 </a>
+<br>
+<textarea rows="3" cols="40" id = "result2" style="border:0;"></textarea>
+ <textarea rows = "30" cols = "30" id = "textarea2"></textarea>
+<a id = "result2"></a>
+<br><br>
+<button onclick="parseButton()">Parse</button>
+  <button onclick="runButton()" id="runButton" disabled="disabled">Run</button> 
+  <button onclick="inoButton()">ino</button>
+
+
+
+
+<select id="lstFavorites">
+    <option>C#</option>
+    <option>JavaScript</option>
+    <option>Python</option>
+</select>
+
+<div class="my-box">
+저 버스 표지판에 적힌 지명들은 이 세상에 존재하지 않는 곳이거나 누구도 갈 수 없는 곳인 양 여겨지고 있다. 저 약재상과 이불 가게의 진열창을 침수시킨 어둠은 내가 항시 보던 어둠과 전혀 달라 어떤 탐미적 이질감마저 느껴지고 있다.
+
+상점 안에 보이는 저 상인들조차도 단순히 뭔가를 팔고 있는 것이 아니라, 인생이라는 우울한 사건을 꾸미러 온 정체 불명의 존재들처럼 여겨지고 있다.
+</div>
+
+
+</body>
+</html>
+

@@ -1,0 +1,33 @@
+	#whichi{position: absolute; left : 80%;}
+    #textarea{ width : 85%; height: 80%; position: absolute; top: 15%; left: 7%; border: none; z-index: 1; resize: none; outline: none;}
+    #textarea2{ position: absolute; top: 70px; left: 1200px; display: none;}
+	.my-box { position: absolute; top: 10%; left: 76%; border: 3px solid gray; height: 70.5%; width: 23.5%;background-color: #FAFAFA;}
+  	#lstFavorites{position: absolute; top: 7.2%; left: 46%; border : none; background-color: #FAFAFA;}
+
+	#Language{position: absolute; top: 6.6%; left: 8%; font-weight: bold;}
+	#runButton{position : absolute; background-color: blue; border: none;outline: none; position: absolute; top : 88%; left : 93%;}
+	#blocklyDiv{position : absolute; top: 10%;height:70.5%; width: 76%; border: 3px solid gray;}
+	#printr{position : absolute; top : 82%; font-weight: bold;}
+	#result2{position : absolute; top : 85.5%; width: 99.5%; height: 10%; background-color: #F2F2F2;  resize: none; outline: none}
+	#cont{position:absolute;height: 680px; width: 1060px; left:1% ;top : 5%;}
+  #fontid{font-size: 15px; font-family: '고딕';  font-weight:bold;}
+
+
+
+@media (min-width: 768px) {
+  #cont {
+    max-width: 720px;
+  }
+}
+
+@media (min-width: 992px) {
+  #cont {
+    max-width: 960px;
+  }
+}
+
+@media (min-width: 1200px) {
+  #cont {
+    max-width: 1140px;
+  }
+}

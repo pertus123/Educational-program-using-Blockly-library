@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title> 1_6 </title>
+     
+  <style>
+    #textarea{ position: absolute; top: 30px; left: 800px; border: 2px solid blue; }
+    #textarea2{ position: absolute; top: 70px; left: 1200px; border: 2px solid blue; }
+  </style>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><!--한글 깨짐방지-->
+<script src="blocklyR/blolib/blockly_compressed.js"></script>
+<script src="blocklyR/blolib/blocks_compressed.js"></script> <!-- -->
+<script src="blocklyR/msg/js/ko.js"></script>
+<script src="blocklyR/blolib/javascript_compressed.js"></script>
+<script src="blocklyR/blolib/js-py-test.js"></script>
+ <!--<script src="main_compressed.js"></script> 컴 (지울 것?)-->
+<!--컴파일 js 컴파일 -->
+ <script src="blocklyR/blolib/acorn.js"></script>
+ <script src="blocklyR/blolib/interpreter.js"></script>
+
+<script>
+ 
+  var myInterpreter;
+  var BlockResult = "100";
+  function initAlert(interpreter, scope) {
+      var wrapper = function(text) {
+        document.getElementById('textarea2').value += text; // 
+        //return alert(arguments.length ? text : '');
+      };
+     // document.getElementById('textarea2').value = wrapper;
+      interpreter.setProperty(scope, 'alert',
+          interpreter.createNativeFunction(wrapper));
+    }
+
+    function parseButton() {
+      document.getElementById('textarea2').value = ""; //
+      var code = document.getElementById('textarea').value;
+      myInterpreter = new Interpreter(code, initAlert);
+      disable('');
+    }
+
+      function runButton() {
+      disable('disabled');
+      //document.getElementById('textarea2').value = myInterpreter.value;
+      myInterpreter.run();
+      if(BlockResult === document.getElementById('textarea2').value){
+        alert("정답입니다!");
+      }
+      else{
+        alert("틀렸습니다!");
+      }
+    }
+
+    function disable(disabled) {
+      document.getElementById('runButton').disabled = disabled;
+    }
+
+    function inoButton(){
+      let {PythonShell} = require('python-shell');
+      PythonShell.run('test.py', null, function () { });
+    }
+
+
+</script>
+<!-- -->
+
+</head>
+<body>
+<div id="blocklyDiv" style="height: 480px; width: 600px;"></div>
+<xml id="toolbox" style="display: none">
+  <block type="text_print"></block>
+  <block type="text"></block>
+
+</xml>
+<script>
+  var workspace = Blockly.inject('blocklyDiv',
+    {toolbox: document.getElementById('toolbox'),
+     zoom:
+         {controls: true,
+          wheel: true,
+          startScale: 1.0,
+          maxScale: 3,
+          minScale: 0.3,
+          scaleSpeed: 1.2},
+     trashcan: true});
+
+function myUpdateFunction(event) {
+  var code = Blockly.JavaScript.workspaceToCode(workspace);
+  document.getElementById('textarea').value = code;
+}
+workspace.addChangeListener(myUpdateFunction);
+
+
+
+</script>
+
+
+<textarea rows="30" cols="30" id = "textarea">
+</textarea>
+<!-- -->
+<button onclick="parseButton()">Parse</button>
+  <button onclick="runButton()" id="runButton" disabled="disabled">Run</button> 
+  <button onclick="inoButton()">ino</button>
+
+  <textarea rows = "30" cols = "30" id = "textarea2"></textarea>
+
+  </p>
+<!-- -->
+
+
+<!-- -->
+</body>
+</html>

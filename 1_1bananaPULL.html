@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title> Half Coding </title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><!--한글 깨짐방지-->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<script src="blocklyR/blolib/blockly_compressed.js"></script>
+<script src="blocklyR/blolib/blocks_compressed.js"></script> <!-- -->
+<script src="blocklyR/msg/js/ko.js"></script>
+<script src="blocklyR/blolib/javascript_compressed.js"></script>
+<script src="blocklyR/blolib/python_compressed.js"></script>
+<script src="blocklyR/blolib/js-py-test.js"></script>
+ <script src="blocklyR/blolib/acorn.js"></script>
+ <script src="blocklyR/blolib/interpreter.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="codemirror.js"></script>
+<link rel="stylesheet" href="codemirror.css"/>
+<link rel="stylesheet"  href="block.css"/>
+    <script src="javascript.js"></script>
+    <script src="runtime.js"></script>
+
+</head>
+<body>
+  <br>
+  <div id = "cont">
+    <div style="position: absolute; top: -20px"><img src="image/half.PNG" width="200" height="75" ></div>
+
+<div id="blocklyDiv"></div>
+<xml id="toolbox" style="display: none">
+  <category name="조건" colour="%{BKY_LOGIC_HUE}">
+      <category name="조건문" colour="%{BKY_PROCEDURES_HUE}">
+        <block type="controls_if"></block>
+        <block type="controls_if">
+          <mutation else="1"></mutation>
+        </block>
+        <block type="controls_if">
+          <mutation elseif="1" else="1"></mutation>
+        </block>
+      </category>
+      <sep></sep>
+      <category name="불대수" colour="%{BKY_LOGIC_HUE}">
+        <block type="logic_compare"></block>
+        <block type="logic_operation"></block>
+        <block type="logic_negate"></block>
+        <block type="logic_boolean"></block>
+        <block type="logic_null"></block>
+        <block type="logic_ternary"></block>
+      </category>
+    </category>
+    <sep></sep>
+    <category name="반복문" colour="%{BKY_LOOPS_HUE}">
+      <block type="controls_repeat_ext">
+        <value name="TIMES">
+          <block type="math_number">
+            <field name="NUM">10</field>
+          </block>
+        </value>
+      </block>
+      <block type="controls_whileUntil"></block>
+      <block type="controls_for">
+        <field name="VAR">i</field>
+        <value name="FROM">
+          <block type="math_number">
+            <field name="NUM">1</field>
+          </block>
+        </value>
+        <value name="TO">
+          <block type="math_number">
+            <field name="NUM">10</field>
+          </block>
+        </value>
+        <value name="BY">
+          <block type="math_number">
+            <field name="NUM">1</field>
+          </block>
+        </value>
+      </block>
+      <block type="controls_forEach"></block>
+      <block type="controls_flow_statements"></block>
+    </category>
+    <sep></sep>
+    <category name="Math" colour="%{BKY_MATH_HUE}">
+      <block type="math_number">
+        <field name="NUM">123</field>
+      </block>
+      <block type="math_arithmetic"></block>
+      <block type="math_single"></block>
+      <block type="math_trig"></block>
+      <block type="math_constant"></block>
+      <block type="math_number_property"></block>
+      <block type="math_round"></block>
+      <block type="math_on_list"></block>
+      <block type="math_modulo"></block>
+      <block type="math_constrain">
+        <value name="LOW">
+          <block type="math_number">
+            <field name="NUM">1</field>
+          </block>
+        </value>
+        <value name="HIGH">
+          <block type="math_number">
+            <field name="NUM">100</field>
+          </block>
+        </value>
+      </block>
+      <block type="math_random_int">
+        <value name="FROM">
+          <block type="math_number">
+            <field name="NUM">1</field>
+          </block>
+        </value>
+        <value name="TO">
+          <block type="math_number">
+            <field name="NUM">100</field>
+          </block>
+        </value>
+      </block>
+      <block type="math_random_float"></block>
+      <block type="math_atan2"></block>
+    </category>
+    <sep></sep>
+    <category name="배열" colour="%{BKY_LISTS_HUE}">
+      <block type="lists_create_empty"></block>
+      <block type="lists_create_with"></block>
+      <block type="lists_repeat">
+        <value name="NUM">
+          <block type="math_number"> 
+            <field name="NUM">5</field>
+          </block>
+        </value>
+      </block>
+      <block type="lists_length"></block>
+      <block type="lists_isEmpty"></block>
+      <block type="lists_indexOf"></block>
+      <block type="lists_getIndex"></block>
+      <block type="lists_setIndex"></block>
+    </category>
+    <sep></sep>
+    <category name="변수" custom="VARIABLE" colour="%{BKY_VARIABLES_HUE}"></category>
+    <sep></sep>
+    <category name="함수" custom="PROCEDURE" colour="%{BKY_PROCEDURES_HUE}"></category>
+    <sep></sep>
+    <category name="기타"colour="%{BKY_PROCEDURES_HUE}">
+      <block type="text_print"></block>
+      <block type="text"></block>
+      <block type="apple_image"></block>
+      <block type="banana_image"></block>
+    </category>
+    <sep></sep>
+</xml>
+
+<script>
+  var selectedText="";
+  var workspace = Blockly.inject('blocklyDiv',
+    {toolbox: document.getElementById('toolbox'),
+     zoom:
+         {controls: true,
+          wheel: true,
+          startScale: 1.0,
+          maxScale: 3,
+          minScale: 0.3,
+          scaleSpeed: 1.2},
+     trashcan: true});
+$(document).ready(function () {
+            $('#lstFavorites').change(function () {
+                selectedText = $("option:selected").text();
+                myUpdateFunction();
+            });
+
+        });
+
+function myUpdateFunction(event) {
+  var code, code2;
+
+  if(selectedText == "JavaScript"){
+    code = Blockly.JavaScript.workspaceToCode(workspace);
+    code2 = Blockly.JavaScript.workspaceToCode(workspace);
+  }
+  else if(selectedText == "Python"){
+    code = Blockly.Python.workspaceToCode(workspace);
+    code2 = Blockly.JavaScript.workspaceToCode(workspace);
+  }
+  else {code = "언어를 선택해주세요!";}
+
+  document.getElementById('textarea').value = code;
+  document.getElementById('textarea2').value = code2;
+
+}
+
+workspace.addChangeListener(myUpdateFunction);
+
+      function runButton() {
+        parseButton();
+      
+      myInterpreter.run();
+        alert(document.getElementById('result2').value);
+      }
+
+</script>
+
+<div id = "printr">
+<p><font size="4"> 출 력 </font></p>
+</div>
+<textarea id = "result2" readonly ></textarea>
+
+ <textarea rows = "30" cols = "30" id = "textarea2" ></textarea>
+
+<div class="my-box" rows="33" cols="30">
+<p id = "Language" > Language :  </p>
+ <select id="lstFavorites">
+    <option>선택하세요</option>
+    <option>JavaScript</option>
+    <option>Python</option>
+</select>
+<textarea id = "textarea" readonly>
+</textarea>
+</div>
+<button onclick="runButton()" id="runButton"><img src="image/재생.png" width="30" height="30" ></button> 
+</div>
+</body>
+</html>
